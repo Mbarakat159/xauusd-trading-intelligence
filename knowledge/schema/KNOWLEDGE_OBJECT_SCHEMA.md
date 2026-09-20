@@ -15,7 +15,7 @@ The knowledge base stores reusable analytical knowledge as bounded, versioned ob
 
 ## Canonical required fields
 
-Every analytical knowledge/data-domain object (K/G) must expose all of the following fields:
+Every analytical knowledge/data-domain object (K/G) must expose all of the following semantic fields. In grouped Markdown object files, `id` and `title` may be represented by the object heading (for example `## K013 Swing Structure`) rather than repeated as bullets; this is the canonical representation used by the current repository.
 
 | Field | Requirement | Purpose |
 |---|---|---|
@@ -37,14 +37,14 @@ Every analytical knowledge/data-domain object (K/G) must expose all of the follo
 
 ### Canonical epistemic status
 
-`claim_status` must distinguish at least:
+`claim_status` must identify the evidence state. The canonical base vocabulary is:
 
 - `claimed` — documented claim/framework statement; not independently established here.
 - `corroborated` — supported by multiple credible/independent sources, without implying live trading validity.
 - `tested_on_our_data` — evaluated on our data for the stated test purpose; does not by itself establish profitability.
 - `forward_supported` — supported by forward/live-shadow evidence under the stated scope and evaluation protocol.
 
-A higher status must never be assigned merely because more sources or indicators agree. Promotion requires the applicable evidence gate.
+A scoped qualifier may follow the base status (for example `corroborated conceptually` or `tested_on_our_data — implementation pending`). Legacy descriptive status wording is acceptable only when its semantic mapping to one of these bases is clear; it must not be interpreted as a higher evidence state. Promotion requires the applicable evidence gate.
 
 ## Controlled legacy aliases
 
@@ -113,4 +113,4 @@ Knowledge objects provide reasoning inputs and boundaries. They do not directly 
 
 ## Schema governance
 
-This V2 schema is the single source of truth for knowledge-object authoring. Any audit or evaluation document that lists required fields must match this contract exactly. Changes require a versioned schema update and re-audit of the knowledge layer.
+This V2 schema is the single source of truth for knowledge-object authoring. Grouped Markdown files are valid: each `## Kxxx/Gxxx` heading defines the object's identity/title, followed by the canonical fields. A schema audit must validate the semantic fields, not require a particular physical Markdown layout. Any audit or evaluation document that lists required fields must match this contract exactly. Changes require a versioned schema update and re-audit of the knowledge layer.
