@@ -99,7 +99,7 @@ Each object must contain:
 Knowledge is contextual, relational, and provenance-aware.
 
 ### Stage 4 — Reasoning Engine
-NOT STARTED.
+Status: IN PROGRESS / KERNEL V1 IMPLEMENTED
 Only begin after Stage 3 definitions are sufficiently complete and frozen.
 
 Required behavior:
@@ -208,9 +208,10 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-BEGIN STAGE 4 — REASONING ENGINE only after reviewing the Stage 4 entry gate and implementation requirements.
+EVALUATE THE STAGE 4 REASONING KERNEL V1 against adversarial cases and the frozen reasoning constitution, then implement the next Stage 4 increment only if the kernel passes.
 
 Stage 3 gate evidence: `knowledge/KNOWLEDGE_LAYER_AUDIT_V1.md`.
+Stage 4 current artifact: `docs/STAGE4_REASONING_ENGINE_V1.md`.
 
 Do NOT begin live execution or integration with `autonomous-xauusd-agent`.
 
