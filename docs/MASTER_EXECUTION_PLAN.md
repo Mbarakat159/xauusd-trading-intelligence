@@ -80,7 +80,7 @@ Do not build reasoning on undefined measurements.
 Stage 2 gate evidence: evaluation/STAGE2_VALIDATION_REPORT_V1.md
 
 ### Stage 3 — Knowledge Layer
-Status: IN PROGRESS
+Status: PASSED / IMPLEMENTED
 Target: approximately 30–50 high-quality knowledge objects.
 Each object must contain:
 - definition
@@ -208,9 +208,11 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-PERFORM FINAL STAGE 3 GATE VERIFICATION against the current repository state.
+BEGIN STAGE 4 — REASONING ENGINE only after reviewing the Stage 4 entry gate and implementation requirements.
 
-Do NOT start the Reasoning Engine until the Stage 3 gate is explicitly verified.
+Stage 3 gate evidence: `knowledge/KNOWLEDGE_LAYER_AUDIT_V1.md`.
+
+Do NOT begin live execution or integration with `autonomous-xauusd-agent`.
 
 ## 6. Knowledge expansion order
 
