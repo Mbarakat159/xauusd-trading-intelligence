@@ -114,15 +114,30 @@ def _validate(inp: ReasoningInput) -> None:
 
 
 def _digest(inp: ReasoningInput) -> str:
-    # Stable representation for the decision record. No outcome fields are included.
+    # Stable representation of all decision inputs, excluding any outcome fields.
     import hashlib
-    parts = [
-        _utc(inp.as_of).isoformat(), inp.horizon,
-        "|".join(sorted(e.evidence_id + ":" + e.quality.value for e in inp.observations)),
-        "|".join(sorted(h.hypothesis_id for h in inp.hypotheses)),
-        "|".join(sorted(m.method_id + ":" + m.version for m in inp.methods)),
-    ]
-    return hashlib.sha256("\n".join(parts).encode()).hexdigest()
+    import json
+    from dataclasses import asdict
+
+    payload = {
+        "as_of": _utc(inp.as_of).isoformat(),
+        "horizon": inp.horizon,
+        "observations": [asdict(e) for e in inp.observations],
+        "methods": [asdict(m) for m in inp.methods],
+        "hypotheses": [asdict(h) for h in inp.hypotheses],
+        "deterministic_features": [asdict(r) for r in inp.deterministic_features],
+        "data_quality_ok": inp.data_quality_ok,
+    }
+
+    def encode(value):
+        if isinstance(value, Enum):
+            return value.value
+        if isinstance(value, datetime):
+            return _utc(value).isoformat()
+        raise TypeError(f"unsupported digest value: {type(value)!r}")
+
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=encode)
+    return hashlib.sha256(canonical.encode()).hexdigest()
 
 
 def reason(inp: ReasoningInput) -> ReasoningDecision:
