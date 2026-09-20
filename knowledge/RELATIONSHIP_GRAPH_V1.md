@@ -28,6 +28,40 @@ Purpose: make knowledge retrieval contextual rather than keyword or indicator vo
 - G002 CME/COMEX Gold Futures -> requires_data -> venue-specific microstructure claims
 - G001 Broker XAUUSD Feed -> weak_in -> centralized order-flow claims
 
+## MTF and context relationships
+
+- K029 Timeframe Role -> contextualizes -> K030 Cross-Timeframe Structural Alignment
+- K030 Cross-Timeframe Structural Alignment -> depends_on -> K029 Timeframe Role
+- K030 Cross-Timeframe Structural Alignment -> tests -> K032 Context Nesting
+- K031 Timeframe Transition -> contextualizes -> K030 Cross-Timeframe Structural Alignment
+- K031 Timeframe Transition -> depends_on -> causal sequential observations
+- K032 Context Nesting -> complements -> K030 Cross-Timeframe Structural Alignment
+- K032 Context Nesting -> contradicts -> timeframe majority voting
+- K033 Event Pre-Window -> contextualizes -> K034 Event Shock Separation
+- K033 Event Pre-Window -> contextualizes -> K023 Volatility Expansion / Compression
+- K034 Event Shock Separation -> constrains -> interpretation of K018 Displacement
+- K034 Event Shock Separation -> constrains -> interpretation of K023 Volatility Expansion / Compression
+- K035 Session Transition -> contextualizes -> K024 Session State
+- K035 Session Transition -> contextualizes -> K023 Volatility Expansion / Compression
+- K035 Session Transition -> requires_data -> timezone-aware session calendar
+
+## Volume and order-flow relationships
+
+- K036 Volume Evidence Class -> requires_data -> venue/source provenance
+- K036 Volume Evidence Class -> contextualizes -> K037 Tick Activity Proxy
+- K037 Tick Activity Proxy -> alternative_to -> K038 Centralized Order-Flow Evidence when direct venue data are unavailable
+- K037 Tick Activity Proxy -> weak_in -> claims about centralized participation or intent
+- K038 Centralized Order-Flow Evidence -> requires_data -> venue-specific trades/quotes/depth
+- K038 Centralized Order-Flow Evidence -> constrains -> K020 Liquidity
+- K039 Volume Divergence -> depends_on -> K036 Volume Evidence Class
+- K039 Volume Divergence -> tests -> competing interpretations
+- K039 Volume Divergence -> weak_in -> unsupported causal claims
+- K040 Order-Flow Data Sufficiency -> constrains -> K038 Centralized Order-Flow Evidence
+- K040 Order-Flow Data Sufficiency -> constrains -> K020 Liquidity
+- K040 Order-Flow Data Sufficiency -> supports -> UNKNOWN preservation
+- K033 Event Pre-Window -> contextualizes -> K039 Volume Divergence
+- K034 Event Shock Separation -> constrains -> K039 Volume Divergence
+
 ## Retrieval rule
 
 A downstream reasoning component should retrieve:
@@ -37,7 +71,8 @@ A downstream reasoning component should retrieve:
 4. known weak conditions;
 5. relevant disconfirmation tests;
 6. applicable regime/session/event context;
-7. evidence provenance and claim status.
+7. evidence provenance and claim status;
+8. proxy/direct-data status where relevant.
 
 A missing relationship is UNKNOWN, not an invitation to infer one.
 
