@@ -65,7 +65,7 @@ Includes:
 - forward-vs-historical separation
 
 ### Stage 2 — Data + Deterministic Observation
-Status: IN PROGRESS / PARTIALLY IMPLEMENTED
+Status: PASSED / IMPLEMENTED
 Includes:
 - deterministic feature definitions
 - feature contracts
@@ -76,6 +76,8 @@ Includes:
 - method-selection contract
 
 Do not build reasoning on undefined measurements.
+
+Stage 2 gate evidence: evaluation/STAGE2_VALIDATION_REPORT_V1.md
 
 ### Stage 3 — Knowledge Layer
 Status: IN PROGRESS
@@ -206,10 +208,9 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-CONTINUE STAGE 3 ONLY.
-Expand and refine the knowledge layer toward the 30–50 object target.
+PERFORM FINAL STAGE 3 GATE VERIFICATION against the current repository state.
 
-Do NOT jump to the reasoning engine yet.
+Do NOT start the Reasoning Engine until the Stage 3 gate is explicitly verified.
 
 ## 6. Knowledge expansion order
 
