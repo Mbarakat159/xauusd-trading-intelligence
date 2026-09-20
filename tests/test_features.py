@@ -42,11 +42,26 @@ def test_quality_states_are_preserved():
     q=[Quote(bs[-1].ts,101,100,"x")]
     assert f011_spread(q,bs[-1].ts,5).quality == Quality.INVALID
 
+def test_stale_missing_and_unknown_inputs():
+    c=bars(1)[0].ts
+    assert f011_spread([Quote(c-timedelta(seconds=10),100,100.1,"x")],c,5).quality == Quality.STALE
+    assert f011_spread([Quote(c,None,100.1,"x")],c,5).quality == Quality.MISSING
+    assert f013_volume_provenance(venue=None,instrument="XAUUSD",source="feed",measurement="ticks",interval="1m",cutoff=c).quality == Quality.UNKNOWN
+    assert f018_proxy_capability("centralized trades",{"venue_trades"},{"broker_ticks"},c).value["capability"] == "UNKNOWN"
+
 def test_timestamp_and_event_boundaries():
     c=datetime(2026,3,29,1,30,tzinfo=timezone.utc)
     e=Event(c+timedelta(seconds=600),"EVENT")
     assert f014_event_distance(c,e).value == 600
     assert f017_event_window(c,e,900,900).value == "pre-event"
+
+def test_naive_timestamps_are_rejected():
+    try:
+        f014_event_distance(datetime(2026,1,1),None)
+    except ValueError:
+        pass
+    else:
+        assert False, "naive timestamps must be rejected"
 
 def test_version_is_recorded():
     r=f012_activity_proxy(1,"feed",datetime.now(timezone.utc))
