@@ -1,13 +1,13 @@
 # Knowledge Layer Consistency & Gap Audit V1
 
-Date: 2026-09-20
+Date: 2026-09-21
 Scope: K001-K040 and G001-G005, knowledge authoring, deterministic feature contracts, relationship graph, method-selection contract and evaluation coverage.
 
 ## Audit result
 
 **Knowledge-layer gate: PASS.**
 
-The previously identified Stage 3 blockers were resolved:
+The previously identified Stage 3 blockers were resolved, including the schema-governance mismatch between the audit contract and the canonical schema.
 1. canonical deterministic feature definitions were missing at the referenced path -> resolved by `research/features/FEATURE_DEFINITIONS_V1.md`;
 2. several operational definitions used underspecified terms without a canonical measurement contract -> resolved by tying measurements, windows, thresholds and confirmation rules to versioned deterministic contracts;
 3. overlapping concepts lacked sufficient hierarchy -> resolved through explicit parent/specialization/context relationships;
@@ -17,7 +17,7 @@ The previously identified Stage 3 blockers were resolved:
 
 ## Schema audit
 
-All K001-K040 and G001-G005 reviewed in their current repository versions.
+All K001-K040 and G001-G005 are governed by `knowledge/schema/KNOWLEDGE_OBJECT_SCHEMA.md` V2. The schema explicitly permits the repository's grouped Markdown representation, where the `Kxxx/Gxxx` heading carries identity/title and the canonical fields follow it.
 
 Required authoring fields are now present for all knowledge/data-domain objects:
 - definition
@@ -136,18 +136,18 @@ No reviewed knowledge object was found to encode a universal entry, exit, target
 
 Stop Efficiency remains an analytical concept and does not determine direction or size.
 
-## Remaining status
+## Final Stage 3 gate status
 
-No material Stage 3 knowledge-layer blocker remains from this audit.
+No material Stage 3 knowledge-layer blocker remains.
 
-However, the master plan records **Stage 2 — Data + Deterministic Observation as IN PROGRESS / PARTIALLY IMPLEMENTED**. Therefore this audit does **not** authorize skipping Stage 2 or silently declaring the project ready for the Reasoning Engine.
+The canonical schema, object authoring contract, relationship graph and evaluation matrix are now aligned. Stage 3 is therefore **PASSED / IMPLEMENTED** within its defined scope.
 
-The next required work is to complete and test the deterministic observation layer under the existing master plan. Only after that evidence is available should the Stage 4 gate be rechecked.
+Stage 3 does not authorize the Reasoning Engine by itself. The master plan must be used for the next-stage gate and all existing Stage 4 prerequisites remain in force.
 
 ## Audit conclusion
 
-**Stage 3 knowledge definitions/relationships/evaluation coverage: READY.**
+**Stage 3 knowledge definitions/relationships/evaluation coverage: PASSED / IMPLEMENTED.**
 
-**Stage 4 Reasoning Engine: NOT YET CLEARED.**
+**Stage 4 Reasoning Engine: NOT STARTED / NOT YET CLEARED.**
 
-Reason: Stage 2 implementation/testing remains incomplete, not because of a remaining knowledge-layer defect.
+The next stage is Stage 4 only after following the master plan's explicit entry gate.
