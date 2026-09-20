@@ -20,6 +20,18 @@ This matrix tests whether knowledge objects improve reasoning correctness withou
 | K026 Evidence Independence | A, E | provenance graph | no evidence counting |
 | K027 Disconfirmation | E, G, H | predeclared test | measurable falsification |
 | K028 Robustness | all component tests | frozen perturbations | reject fragile conclusions |
+| K029 Timeframe Role | A, H | timestamp/closed-bar contract | role is contextual, not dominant |
+| K030 Cross-Timeframe Structural Alignment | A, B, E | synchronized state comparison | preserve conflict/transition states |
+| K031 Timeframe Transition | B, E, H | causal confirmation | distinguish transition from retracement |
+| K032 Context Nesting | A, B | hierarchy consistency | no timeframe vote counting |
+| K033 Event Pre-Window | D, H | event timestamp/timezone integrity | no post-event leakage |
+| K034 Event Shock Separation | D, H | event-window labeling | separate shock from ordinary expansion |
+| K035 Session Transition | D, H | timezone/DST/calendar tests | session is contextual |
+| K036 Volume Evidence Class | C, F, H | venue/source provenance | do not overinterpret measurement |
+| K037 Tick Activity Proxy | C, F | proxy metadata | never promote proxy to centralized volume |
+| K038 Centralized Order-Flow Evidence | C, F, H | venue/field validation | keep claims venue-scoped |
+| K039 Volume Divergence | C, D, E | predeclared divergence definition | competing explanations required |
+| K040 Order-Flow Data Sufficiency | C, F, H | capability matrix | UNKNOWN or narrowed claim when insufficient |
 
 ## Acceptance criteria
 
@@ -30,7 +42,8 @@ An object is not operationally promoted because a case “looks correct.” It m
 - expose competing interpretations where ambiguity is material;
 - identify a measurable disconfirmation test where the object supports a hypothesis;
 - carry provenance and claim status;
-- survive regression when the knowledge graph changes.
+- survive regression when the knowledge graph changes;
+- remain analytical rather than becoming a universal entry/exit rule.
 
 ## Evaluation separation
 
