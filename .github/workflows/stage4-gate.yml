@@ -23,3 +23,5 @@ jobs:
           python -m pip install pytest
       - name: Run test suite
         run: python -m pytest -q
+
+# Stage 4 gate: observable validation execution.
