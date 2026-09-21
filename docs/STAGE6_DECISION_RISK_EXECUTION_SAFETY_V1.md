@@ -1,7 +1,7 @@
 # Stage 6 — Decision / Risk / Execution Safety V1
 
 ## Status
-IMPLEMENTED / EVALUATION GATE IN PROGRESS
+PASSED / V1 IMPLEMENTED — EVALUATION GATE CLOSED
 
 ## Scope
 Stage 6 adds a deterministic safety boundary around the analytical disposition. It does not create a trading strategy and does not select direction, entry, target, stop, or position size.
@@ -58,3 +58,7 @@ The Stage 6 gate uses six frozen synthetic cases in evaluation/STAGE6_FROZEN_SAF
 
 ## Evaluation boundary
 Synthetic tests validate deterministic safety, fail-closed behavior, causal position-state handling, watchdog behavior, rollback eligibility, and explicit WAIT versus BLOCK behavior. They are not trading-performance evidence.
+
+
+## Gate closure
+Repository-level CI passed on commit 2ef03176da6b6b29a365badce684799c028bea07. Stage 2 deterministic validation, Stage 4 Gate, and Stage 5 Agentic Reasoning Validation all completed successfully. The frozen Stage 6 safety cases passed through the repository test suite. This is safety-contract evidence only, not live trading or profitability evidence.
