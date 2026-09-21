@@ -53,5 +53,8 @@ Rollback is not automatic model self-modification. A rollback target must be an 
 - no online self-modification;
 - no modification of autonomous-xauusd-agent.
 
+## Frozen evaluation gate
+The Stage 6 gate uses six frozen synthetic cases in evaluation/STAGE6_FROZEN_SAFETY_CASES_V1.py: healthy allow, stale-data wait, spread block, exposure block, tool-failure block, and watchdog block. The evaluation checks the exact case set and requires every disposition to match its frozen expectation. These cases test safety-contract behavior only; they are not trading-performance evidence.
+
 ## Evaluation boundary
-Synthetic tests validate deterministic safety, fail-closed behavior, causal position-state handling, watchdog behavior, and rollback eligibility. They are not trading-performance evidence.
+Synthetic tests validate deterministic safety, fail-closed behavior, causal position-state handling, watchdog behavior, rollback eligibility, and explicit WAIT versus BLOCK behavior. They are not trading-performance evidence.
