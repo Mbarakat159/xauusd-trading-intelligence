@@ -25,3 +25,4 @@ jobs:
         run: python -m pytest -q
 
 # Stage 4 gate: observable validation execution.
+# Trigger validation run after test-source repair.
