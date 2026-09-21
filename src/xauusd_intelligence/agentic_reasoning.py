@@ -2,10 +2,11 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
+from datetime import datetime, timezone
 from typing import Sequence
 
 
-VERSION = "agentic-reasoning-v1.0.0"
+VERSION = "agentic-reasoning-v1.1.0"
 
 
 class AgenticStep(str, Enum):
@@ -28,6 +29,9 @@ class AgenticTrace:
     contradictions: tuple[str, ...] = ()
     recovery_actions: tuple[str, ...] = ()
     final_disposition: str = ""
+    decision_timestamp: str = ""
+    evidence_timestamps: tuple[str, ...] = ()
+    max_evidence_age_seconds: int | None = None
     version: str = VERSION
 
 
@@ -39,6 +43,7 @@ class AgenticEvaluation:
     contradictions_preserved: bool
     recovery_present: bool
     disposition_preserved: bool
+    causal_boundary_preserved: bool
     failures: tuple[str, ...]
     score: int
     version: str = VERSION
@@ -83,6 +88,41 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
         failures.append("iteration is claimed without a recovery/refinement action")
 
     disposition_ok = expected_disposition is None or trace.final_disposition == expected_disposition
+    causal_ok = True
+    decision_time = None
+    if trace.decision_timestamp:
+        try:
+            decision_time = datetime.fromisoformat(trace.decision_timestamp.replace("Z", "+00:00"))
+            if decision_time.tzinfo is None:
+                decision_time = decision_time.replace(tzinfo=timezone.utc)
+        except ValueError:
+            causal_ok = False
+            failures.append("decision timestamp is invalid")
+    elif trace.evidence_timestamps:
+        causal_ok = False
+        failures.append("evidence timestamps exist without a decision timestamp")
+
+    parsed_evidence = []
+    for raw in trace.evidence_timestamps:
+        try:
+            value = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+            if value.tzinfo is None:
+                value = value.replace(tzinfo=timezone.utc)
+            parsed_evidence.append(value)
+        except ValueError:
+            causal_ok = False
+            failures.append("evidence timestamp is invalid")
+    if decision_time is not None:
+        for value in parsed_evidence:
+            if value > decision_time:
+                causal_ok = False
+                failures.append("evidence timestamp is after decision timestamp")
+        if trace.max_evidence_age_seconds is not None:
+            for value in parsed_evidence:
+                age = (decision_time - value).total_seconds()
+                if age >= 0 and age > trace.max_evidence_age_seconds:
+                    causal_ok = False
+                    failures.append("evidence is stale beyond declared freshness boundary")
     if not disposition_ok:
         failures.append("final disposition differs from expected case disposition")
 
@@ -94,6 +134,7 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
             contradictions or not trace.contradictions,
             recovery or AgenticStep.ITERATE not in trace.steps,
             disposition_ok,
+            causal_ok,
         ]
     )
 
@@ -104,6 +145,7 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
         contradictions or not trace.contradictions,
         recovery or AgenticStep.ITERATE not in trace.steps,
         disposition_ok,
+        causal_ok,
         tuple(failures),
         score,
     )
