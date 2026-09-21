@@ -111,7 +111,7 @@ def test_wrong_disposition_is_failure_even_with_complete_process():
     assert not result.disposition_preserved
     assert "final disposition differs from expected case disposition" in result.failures
 
-    
+
 def test_future_evidence_violates_causal_boundary():
     trace = AgenticTrace(
         steps=disciplined().steps,
