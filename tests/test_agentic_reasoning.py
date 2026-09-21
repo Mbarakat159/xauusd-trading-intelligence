@@ -92,6 +92,24 @@ def test_contradiction_is_not_silently_discarded():
     assert "contradiction was explicitly discarded" in result.failures
 
 
+def test_future_information_must_not_be_hidden_as_verification():
+    trace = AgenticTrace(
+        steps=(
+            AgenticStep.UNDERSTAND,
+            AgenticStep.EXPLORE,
+            AgenticStep.PLAN,
+            AgenticStep.ACT,
+            AgenticStep.VERIFY,
+            AgenticStep.REVIEW,
+        ),
+        evidence_requests=("future outcome",),
+        verification_checks=("future outcome",),
+        final_disposition="WAIT",
+    )
+    result = evaluate_trace(trace, expected_disposition="WAIT")
+    assert result.verification_present
+
+
 def test_wrong_disposition_is_failure_even_with_complete_process():
     result = evaluate_trace(disciplined("MONITOR"), expected_disposition="WAIT")
     assert not result.disposition_preserved
