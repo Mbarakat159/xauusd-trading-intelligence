@@ -41,23 +41,33 @@ Bootstrap a local Windows runtime for the XAUUSD forward-shadow development path
    - Live forward tick Bid/Ask was readable
    - Recent bars were readable on M1, M5, M15, M30, H1, H4
 9. No trading order has been submitted.
+10. Read-only `MT5MarketDataAdapter` implemented at `src/xauusd_intelligence/mt5_market_data.py`.
+11. Adapter contract tests added at `tests/test_mt5_market_data.py`.
+12. The adapter uses dependency injection for the MT5 module so tests do not require a live terminal.
 
 ## Current milestone
-**Python -> MT5 -> Equiti Demo -> XAUUSD.sd read-only market data: PASSED**
+**MT5 read-only market-data adapter: IMPLEMENTED / LOCAL TEST PENDING**
 
-This proves the local runtime can reach the intended Equiti Demo terminal and read current XAUUSD.sd tick/candle data across the required initial timeframes. It does not authorize or enable live trading.
+The adapter normalizes:
+- current Bid/Ask tick
+- UTC timestamps
+- OHLC bars
+- tick volume
+- multiple configured timeframes
+
+It intentionally has no order submission or position-management API.
 
 ## Read-only boundary
-The probe script `tools/mt5_readonly_probe.py` only initializes MT5 and reads terminal/account/symbol/tick/bar information. It does not submit orders or modify positions.
+The probe script `tools/mt5_readonly_probe.py` and the adapter only initialize/connect to MT5 and read terminal/account/symbol/market data. They do not submit orders or modify positions.
 
 ## Next step
-Build the first proper **MT5 Market Data Adapter** inside the project, using the verified local connection as its runtime source. The adapter should expose normalized read-only market observations to the intelligence stack rather than leaving connectivity as a standalone probe.
+Run the adapter unit tests locally. After they pass, the next implementation step is to connect the adapter to the forward-shadow observation path, still with no order submission and with decisions frozen before any later outcome is observed.
 
-The next implementation must preserve:
+The implementation must preserve:
 - no order submission
 - no live-position management
 - no strategy hard-coding
 - no future-data leakage
-- GitHub checkpoint after the meaningful adapter milestone
+- GitHub checkpoint after each meaningful milestone
 
 Master Plan changes require explicit user approval.
