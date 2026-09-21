@@ -125,7 +125,9 @@ Ablate/test whether agentic principles improve reasoning correctness.
 No trading rules are imported merely because they appear in Fable material.
 
 ### Stage 6 — Decision / Risk / Execution Safety
-NOT STARTED.
+PASSED / V1 IMPLEMENTED.
+Gate evidence: docs/STAGE6_DECISION_RISK_EXECUTION_SAFETY_V1.md and frozen cases in evaluation/STAGE6_FROZEN_SAFETY_CASES_V1.py.
+Repository-level CI passed on commit 2ef03176da6b6b29a365badce684799c028bea07.
 Deterministic safety layer.
 Must include:
 - hard risk constraints
@@ -208,7 +210,7 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-Begin Stage 6 — Decision / Risk / Execution Safety. Stage 5 was closed after repository-level CI success on commit `0895bfff876e8f1cf67cbc32034d183fe870f58b`. The frozen ablation showed higher disciplined process-contract score with unchanged tested case outcomes; this is process evidence only, not trading-performance evidence.
+Begin Stage 7 — Forward Shadow. Stage 6 was closed after repository-level CI success on commit `2ef03176da6b6b29a365badce684799c028bea07`. Stage 6 synthetic safety cases verify deterministic ALLOW/WAIT/BLOCK behavior, exposure/execution/data safeguards, watchdog behavior, observational position-state handling, and explicit rollback eligibility. This is safety-contract evidence only, not trading-performance evidence.
 
 Stage 3 gate evidence: `knowledge/KNOWLEDGE_LAYER_AUDIT_V1.md`.
 Stage 4 current artifact: `docs/STAGE4_REASONING_ENGINE_V1.md`.
