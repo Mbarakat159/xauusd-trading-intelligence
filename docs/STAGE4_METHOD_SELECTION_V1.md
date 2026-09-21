@@ -1,5 +1,8 @@
 # Stage 4 — Method Selection / Knowledge Retrieval V1
 
+Status: IMPLEMENTED / TESTED
+Validation: repository test suite passed with 22 tests on 2026-09-21.
+
 ## Purpose
 
 This increment adds a bounded analytical-family selector and knowledge retrieval contract on top of the Stage 4 reasoning kernel. It does not choose a trading strategy, market direction, entry, exit, target, stop, size, or probability.
