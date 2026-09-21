@@ -25,7 +25,7 @@ import os
 import sys
 import time
 
-from ctrader_open_api import Client, EndPoints, Protobuf, TcpProtocol
+from ctrader_open_api import Client, Protobuf, TcpProtocol
 from ctrader_open_api.messages.OpenApiMessages_pb2 import (
     ProtoOAAccountAuthReq,
     ProtoOAAccountAuthRes,
@@ -37,7 +37,6 @@ from ctrader_open_api.messages.OpenApiMessages_pb2 import (
     ProtoOASymbolsListReq,
     ProtoOASymbolsListRes,
 )
-from ctrader_open_api.messages.OpenApiModelMessages_pb2 import ProtoOASymbol
 
 
 def required(name: str) -> str:
@@ -52,7 +51,7 @@ CLIENT_SECRET = required("CTRADER_CLIENT_SECRET")
 ACCESS_TOKEN = required("CTRADER_ACCESS_TOKEN")
 ACCOUNT_ID = int(required("CTRADER_ACCOUNT_ID"))
 
-client = Client(EndPoints.PROTOBUF_LIVE_HOST, EndPoints.PROTOBUF_PORT, TcpProtocol)
+client = Client("demo.ctraderapi.com", 5035, TcpProtocol)
 state = {"symbol_id": None, "symbol_name": None, "spot": None}
 
 
@@ -108,8 +107,9 @@ def on_message(message):
         bid = getattr(res, "bid", None)
         ask = getattr(res, "ask", None)
         state["spot"] = (bid, ask)
-        digits = 5
-        print(f"5/5 XAUUSD spot: OK — bid={bid} ask={ask} (raw API values)")
+        bid_price = None if bid is None else bid / 100000.0
+        ask_price = None if ask is None else ask / 100000.0
+        print(f"5/5 XAUUSD spot: OK — bid={bid_price} ask={ask_price}")
         print("RESULT: cTrader Open API can deliver XAUUSD market data to the client.")
         client.stopService()
 
