@@ -45,7 +45,7 @@ def test_llm_confidence_is_not_probability():
         pass
     else:
         assert False
-\n
+
 def test_digest_changes_when_evidence_content_changes():
     e1 = Evidence("e1", "observation", "break above range", Quality.VALID, "feature")
     h = Hypothesis("h1", "continuation", supporting_evidence=("e1",), disconfirmation=("close back inside range",))
