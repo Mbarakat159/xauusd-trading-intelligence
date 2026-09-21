@@ -79,8 +79,11 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
     if not verification:
         failures.append("no explicit verification check recorded")
 
-    contradictions = bool(trace.contradictions)
-    if any(x.strip().lower() == "discarded" for x in trace.contradictions):
+    discarded_contradiction = any(
+        x.strip().lower() == "discarded" for x in trace.contradictions
+    )
+    contradictions = not discarded_contradiction
+    if discarded_contradiction:
         failures.append("contradiction was explicitly discarded")
 
     recovery = bool(trace.recovery_actions)
@@ -131,7 +134,7 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
             complete,
             evidence,
             verification,
-            contradictions or not trace.contradictions,
+            contradictions,
             recovery or AgenticStep.ITERATE not in trace.steps,
             disposition_ok,
             causal_ok,
@@ -142,7 +145,7 @@ def evaluate_trace(trace: AgenticTrace, *, expected_disposition: str | None = No
         complete,
         evidence,
         verification,
-        contradictions or not trace.contradictions,
+        contradictions,
         recovery or AgenticStep.ITERATE not in trace.steps,
         disposition_ok,
         causal_ok,
