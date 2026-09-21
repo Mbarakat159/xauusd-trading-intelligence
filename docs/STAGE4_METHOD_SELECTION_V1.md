@@ -30,3 +30,7 @@ The selector cannot:
 ## Evaluation boundary
 
 Tests cover unavailable inputs, redundant methods, scoped retrieval and the no-evidence case. These tests validate selection mechanics only; they are not profitability evidence.
+
+## Validation
+
+This branch validates repository-level execution of the Stage 4 increment.
