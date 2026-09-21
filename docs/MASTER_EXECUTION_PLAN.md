@@ -140,7 +140,8 @@ Must include:
 - rollback capability
 
 ### Stage 7 — Forward Shadow
-NOT STARTED.
+IN PROGRESS / CONTRACT IMPLEMENTED.
+Stage 7 shadow contract: `docs/STAGE7_FORWARD_SHADOW_V1.md`. Forward evaluation is pending real live/forward observations; synthetic contract tests are not performance evidence.
 Use live/forward market observations without sending live orders.
 Freeze relevant versions during evaluation windows.
 Evaluate:
@@ -210,7 +211,7 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-Begin Stage 7 — Forward Shadow. Stage 6 was closed after repository-level CI success on commit `2ef03176da6b6b29a365badce684799c028bea07`. Stage 6 synthetic safety cases verify deterministic ALLOW/WAIT/BLOCK behavior, exposure/execution/data safeguards, watchdog behavior, observational position-state handling, and explicit rollback eligibility. This is safety-contract evidence only, not trading-performance evidence.
+Run the Stage 7 forward-shadow evaluation window with frozen versions. Stage 6 was closed after repository-level CI success on commit `2ef03176da6b6b29a365badce684799c028bea07`. Stage 6 synthetic safety cases verify deterministic ALLOW/WAIT/BLOCK behavior, exposure/execution/data safeguards, watchdog behavior, observational position-state handling, and explicit rollback eligibility. This is safety-contract evidence only, not trading-performance evidence.
 
 Stage 3 gate evidence: `knowledge/KNOWLEDGE_LAYER_AUDIT_V1.md`.
 Stage 4 current artifact: `docs/STAGE4_REASONING_ENGINE_V1.md`.
