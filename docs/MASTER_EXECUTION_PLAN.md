@@ -118,7 +118,7 @@ Required behavior:
 No live execution.
 
 ### Stage 5 — Fable / Agentic Reasoning Layer
-NOT STARTED.
+IN PROGRESS / V1 IMPLEMENTED — EVALUATION GATE PENDING.
 Use Fable research only for agentic reasoning/tool-use principles.
 Do not copy a leaked prompt blindly.
 Ablate/test whether agentic principles improve reasoning correctness.
@@ -208,7 +208,7 @@ Completed foundations:
 - knowledge evaluation matrix
 
 Current next action:
-EVALUATE THE STAGE 4 REASONING KERNEL V1 against adversarial cases and the frozen reasoning constitution, then implement the next Stage 4 increment only if the kernel passes.
+EVALUATE STAGE 5 FABLE / AGENTIC REASONING V1 against frozen reasoning cases and adversarial process cases. Do not mark Stage 5 passed until the baseline-vs-disciplined ablation provides observable evidence about reasoning-contract correctness.
 
 Stage 3 gate evidence: `knowledge/KNOWLEDGE_LAYER_AUDIT_V1.md`.
 Stage 4 current artifact: `docs/STAGE4_REASONING_ENGINE_V1.md`.
