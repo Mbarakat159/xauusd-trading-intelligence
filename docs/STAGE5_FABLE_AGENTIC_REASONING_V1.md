@@ -1,6 +1,6 @@
 # Stage 5 — Fable / Agentic Reasoning Layer V1
 
-Status: IMPLEMENTED / EVALUATION GATE IN PROGRESS
+Status: PASSED / V1 IMPLEMENTED
 
 ## Scope
 
@@ -120,8 +120,21 @@ The frozen ablation set contains four synthetic reasoning-contract cases:
 
 Baseline and disciplined traces use the same decision/evidence time boundary. The cases are not market data and cannot establish profitability.
 
-## Current gate state
+## Stage 5 gate result — PASSED
 
-The representative case set and causal adversarial tests are now committed. The repository-level Stage 5 CI result for the latest evaluation commit still requires observable workflow confirmation; Stage 5 therefore remains PENDING and is not marked PASSED.
+Repository-level evaluation is closed on the evidence available for this gate.
 
-The pass decision requires successful repository test execution plus the frozen ablation results, followed by explicit confirmation that the disciplined process improves, degrades, or does not change the measured correctness/failure profile. No Stage 6 work should begin before that gate is closed.
+- Evaluation commit: `0895bfff876e8f1cf67cbc32034d183fe870f58b`.
+- GitHub Actions workflow: `Stage 5 Agentic Reasoning Validation #13`.
+- Workflow result: **Success**.
+- Frozen case set: 4 synthetic reasoning-contract cases.
+- Both baseline and disciplined variants preserved the expected case disposition across the frozen set.
+- The disciplined variant achieved a higher process-contract score than the baseline.
+- The ablation reported `changed_outcome = false`: the process discipline did not manufacture a different case outcome.
+- Adversarial checks cover missing evidence, contradiction, bounded tool-failure recovery, stale evidence, and future evidence.
+- The latest evaluation therefore supports a process-level conclusion only: the disciplined agentic contract improves the measured observable process score in the frozen synthetic harness while leaving the tested case outcomes unchanged.
+- This is not evidence of trading edge, profitability, live-market superiority, or improved XAUUSD performance.
+
+The gate is closed without changing the Stage 4 reasoning boundaries, introducing trading rules, or modifying the separate autonomous agent.
+
+Stage 6 is now the next planned stage under the master execution plan.
