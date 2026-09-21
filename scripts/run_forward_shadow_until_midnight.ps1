@@ -4,12 +4,26 @@
 
 $ErrorActionPreference = "Stop"
 
-$repoRoot = (Get-Location).Path
+# Resolve the repository root from this script location, not the caller's
+# current directory. This makes the launcher safe to run from anywhere.
+$repoRoot = Split-Path -Parent $PSScriptRoot
 $outputDir = Join-Path $repoRoot "runtime\forward_shadow"
+$pythonExe = Join-Path $repoRoot ".venv\Scripts\python.exe"
+
+if (-not (Test-Path -LiteralPath $pythonExe)) {
+    throw "Project virtualenv Python not found: $pythonExe"
+}
+
+Set-Location -LiteralPath $repoRoot
 New-Item -ItemType Directory -Force -Path $outputDir | Out-Null
+
+# Make the src-layout package importable without requiring installation.
+$env:PYTHONPATH = Join-Path $repoRoot "src"
 
 Write-Host "=== XAUUSD MT5 forward-shadow session ===" -ForegroundColor Cyan
 Write-Host "Repository: $repoRoot"
+Write-Host "Python: $pythonExe"
+Write-Host "PYTHONPATH: $env:PYTHONPATH"
 Write-Host "Mode: READ-ONLY / NO TRADING"
 
 # Verify MT5 and the expected Equiti symbol before starting.
@@ -38,7 +52,7 @@ print("Bid:", tick.bid, "Ask:", tick.ask)
 print("Server:", mt5.account_info().server if mt5.account_info() else "unknown")
 mt5.shutdown()
 '@
-$check | python -
+$check | & $pythonExe -
 if ($LASTEXITCODE -ne 0) {
     throw "MT5/XAUUSD startup validation failed."
 }
@@ -138,7 +152,7 @@ while ($true) {
     Write-Host ""
     Write-Host "Starting hour: $hourFile | duration=$segmentSeconds seconds" -ForegroundColor Yellow
 
-    python -m xauusd_intelligence.mt5_forward_runner --symbol XAUUSD.sd --venue EquitiBrokerageSC-Demo --source MetaTrader5 --output $outputPath --interval 30 --bars 100 --duration $segmentSeconds
+    & $pythonExe -m xauusd_intelligence.mt5_forward_runner --symbol XAUUSD.sd --venue EquitiBrokerageSC-Demo --source MetaTrader5 --output $outputPath --interval 30 --bars 100 --duration $segmentSeconds
 
     if ($LASTEXITCODE -ne 0) {
         throw "Forward-shadow runner exited with code $LASTEXITCODE."
