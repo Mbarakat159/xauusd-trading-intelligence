@@ -180,7 +180,12 @@ def evaluate_safety(inp: SafetyInput, limits: SafetyLimits) -> SafetyDecision:
         reasons.append("position state is unknown")
         hard_failures.append("position state is unknown")
 
-    if hard_failures:\n        disposition = SafetyDisposition.BLOCK\n    elif soft_waits:\n        disposition = SafetyDisposition.WAIT\n    else:\n        disposition = SafetyDisposition.ALLOW
+    if hard_failures:
+        disposition = SafetyDisposition.BLOCK
+    elif soft_waits:
+        disposition = SafetyDisposition.WAIT
+    else:
+        disposition = SafetyDisposition.ALLOW
     return SafetyDecision(as_of, VERSION, disposition, tuple(reasons), checked, _digest(inp))
 
 def evaluate_watchdog(state: WatchdogState) -> WatchdogDecision:
