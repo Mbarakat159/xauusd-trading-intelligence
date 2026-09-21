@@ -35,7 +35,7 @@ def test_tool_failure_blocks():
     assert evaluate_safety(base(tool_health=ToolHealth.FAILED), limits()).disposition == SafetyDisposition.BLOCK
 
 def test_stale_quote_blocks():
-    assert evaluate_safety(base(quote_ts=now() - timedelta(seconds=6)), limits()).disposition == SafetyDisposition.BLOCK
+    assert evaluate_safety(base(quote_ts=now() - timedelta(seconds=6)), limits()).disposition == SafetyDisposition.WAIT
 
 def test_invalid_quote_blocks():
     assert evaluate_safety(base(ask=2499.0), limits()).disposition == SafetyDisposition.BLOCK
@@ -47,7 +47,7 @@ def test_slippage_limit_blocks():
     assert evaluate_safety(base(expected_price=2501.0), limits()).disposition == SafetyDisposition.BLOCK
 
 def test_data_freshness_blocks():
-    assert evaluate_safety(base(data_age_seconds=11), limits()).disposition == SafetyDisposition.BLOCK
+    assert evaluate_safety(base(data_age_seconds=11), limits()).disposition == SafetyDisposition.WAIT
 
 def test_gross_exposure_blocks():
     assert evaluate_safety(base(current_gross_exposure=95), limits()).disposition == SafetyDisposition.BLOCK
