@@ -74,9 +74,10 @@ def test_ablation_does_not_allow_process_discipline_to_change_case_truth():
             ),
         )
     )[0]
-    assert not result.baseline_correct
+    assert result.baseline_correct
     assert result.disciplined_correct
     assert not result.changed_outcome
+    assert result.baseline_score < result.disciplined_score
 
 
 def test_contradiction_is_not_silently_discarded():
