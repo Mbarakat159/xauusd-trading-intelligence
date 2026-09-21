@@ -12,13 +12,14 @@ Bootstrap a local Windows runtime for the XAUUSD forward-shadow development path
 - Git: 2.55.0.windows.3
 - Python virtual environment: `.venv`
 - MT5 Python package: installed and importable
-- Broker: Equiti Demo
+- Broker: Equiti Brokerage (Seychelles) Limited
+- Server: `EquitiBrokerageSC-Demo`
 - XAUUSD symbol: `XAUUSD.sd`
-- Trading: disabled; connectivity tests are read-only
+- Trading: no orders submitted; connectivity and data tests are read-only
 
 ## Completed
 1. Repository cloned successfully.
-2. Repository verified on `main`, synchronized with `origin/main`, working tree clean.
+2. Repository verified on `main`, synchronized with `origin/main`.
 3. Python virtual environment created and activated.
 4. Python version verified.
 5. `MetaTrader5` Python package installed and imported successfully.
@@ -26,19 +27,37 @@ Bootstrap a local Windows runtime for the XAUUSD forward-shadow development path
    - `mt5.initialize()` -> `True`
    - `mt5.last_error()` -> `(1, 'Success')`
    - `mt5.shutdown()` executed.
-7. No trading order has been submitted.
+7. Read-only Equiti account probe succeeded:
+   - Connected: `True`
+   - Account login: `1059868`
+   - Broker: Equiti Brokerage (Seychelles) Limited
+   - Server: `EquitiBrokerageSC-Demo`
+   - Account trade mode: `0`
+   - Currency: USD
+8. `XAUUSD.sd` market-data access succeeded:
+   - Symbol description: Gold vs US Dollar
+   - Digits: 2
+   - Point: 0.01
+   - Live forward tick Bid/Ask was readable
+   - Recent bars were readable on M1, M5, M15, M30, H1, H4
+9. No trading order has been submitted.
 
 ## Current milestone
-**Python -> MT5 process connectivity: PASSED**
+**Python -> MT5 -> Equiti Demo -> XAUUSD.sd read-only market data: PASSED**
 
-This proves that Python can initialize the local MetaTrader 5 terminal. It does not yet prove that the intended Equiti account, server, or `XAUUSD.sd` market data can be read successfully.
+This proves the local runtime can reach the intended Equiti Demo terminal and read current XAUUSD.sd tick/candle data across the required initial timeframes. It does not authorize or enable live trading.
+
+## Read-only boundary
+The probe script `tools/mt5_readonly_probe.py` only initializes MT5 and reads terminal/account/symbol/tick/bar information. It does not submit orders or modify positions.
 
 ## Next step
-Run a read-only account/symbol/data probe to verify:
-- connected Equiti account and server
-- account is Demo
-- `XAUUSD.sd` exists and is selectable
-- current tick Bid/Ask
-- recent candles for the required timeframes
+Build the first proper **MT5 Market Data Adapter** inside the project, using the verified local connection as its runtime source. The adapter should expose normalized read-only market observations to the intelligence stack rather than leaving connectivity as a standalone probe.
 
-No order submission is permitted during this bootstrap phase.
+The next implementation must preserve:
+- no order submission
+- no live-position management
+- no strategy hard-coding
+- no future-data leakage
+- GitHub checkpoint after the meaningful adapter milestone
+
+Master Plan changes require explicit user approval.
