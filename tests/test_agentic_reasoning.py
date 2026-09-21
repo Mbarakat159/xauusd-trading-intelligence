@@ -78,6 +78,20 @@ def test_ablation_does_not_allow_process_discipline_to_change_case_truth():
     assert not result.changed_outcome
 
 
+def test_contradiction_is_not_silently_discarded():
+    trace = disciplined()
+    trace = AgenticTrace(
+        steps=trace.steps,
+        evidence_requests=trace.evidence_requests,
+        verification_checks=trace.verification_checks,
+        contradictions=("discarded",),
+        final_disposition="WAIT",
+    )
+    result = evaluate_trace(trace, expected_disposition="WAIT")
+    assert not result.contradictions_preserved
+    assert "contradiction was explicitly discarded" in result.failures
+
+
 def test_wrong_disposition_is_failure_even_with_complete_process():
     result = evaluate_trace(disciplined("MONITOR"), expected_disposition="WAIT")
     assert not result.disposition_preserved
