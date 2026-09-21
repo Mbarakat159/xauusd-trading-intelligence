@@ -46,22 +46,15 @@ Bootstrap a local Windows runtime for the XAUUSD forward-shadow development path
 12. The adapter uses dependency injection for the MT5 module so tests do not require a live terminal.
 
 ## Current milestone
-**MT5 read-only market-data adapter: IMPLEMENTED / LOCAL TEST PENDING**
+**MT5 -> Forward Shadow observation builder: IMPLEMENTED / LOCAL TEST PENDING**
 
-The adapter normalizes:
-- current Bid/Ask tick
-- UTC timestamps
-- OHLC bars
-- tick volume
-- multiple configured timeframes
+A read-only MT5 snapshot can now be converted into the existing immutable forward-shadow observation contract. The observation timestamp comes from the observed MT5 tick, and its identity/digest are derived only from the snapshot. No outcome data, order submission, or position management is involved.
 
-It intentionally has no order submission or position-management API.
-
-## Read-only boundary
-The probe script `tools/mt5_readonly_probe.py` and the adapter only initialize/connect to MT5 and read terminal/account/symbol/market data. They do not submit orders or modify positions.
+## Read-only / causality boundary
+The probe, MT5 adapter, and observation builder only initialize/connect to MT5 and read/normalize market data. They do not submit orders or modify positions. The observation builder does not calculate or attach outcomes and does not have access to future market data.
 
 ## Next step
-Run the adapter unit tests locally. After they pass, the next implementation step is to connect the adapter to the forward-shadow observation path, still with no order submission and with decisions frozen before any later outcome is observed.
+Pull this milestone locally and run the dedicated observation-builder unit tests. After they pass, run a real local MT5 smoke test that captures one current `XAUUSD.sd` snapshot and converts it into a forward-shadow observation without submitting any order.
 
 The implementation must preserve:
 - no order submission
