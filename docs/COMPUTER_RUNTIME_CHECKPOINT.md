@@ -46,15 +46,27 @@ Bootstrap a local Windows runtime for the XAUUSD forward-shadow development path
 12. The adapter uses dependency injection for the MT5 module so tests do not require a live terminal.
 
 ## Current milestone
-**MT5 -> Forward Shadow observation builder: IMPLEMENTED / UNIT TESTS PASSED**
+**MT5 -> Forward Shadow observation builder: REAL MT5 SMOKE TEST PASSED**
 
-A read-only MT5 snapshot can now be converted into the existing immutable forward-shadow observation contract. The observation timestamp comes from the observed MT5 tick, and its identity/digest are derived only from the snapshot. No outcome data, order submission, or position management is involved.
+A real local MT5 snapshot from `XAUUSD.sd` was successfully converted into the immutable forward-shadow observation contract.
+
+Smoke-test result:
+- Snapshot: **OK**
+- Symbol: `XAUUSD.sd`
+- Forward tick: Bid `4350.26`, Ask `4350.53`
+- Observation time: `2026-09-21T19:28:07+00:00`
+- Timeframes captured: M1, M5, M15, M30, H1, H4
+- Bars per timeframe: 20
+- Observation: **OK**
+- Observation ID: `mt5:XAUUSD.sd:2026-09-21T19:28:07+00:00:2c13608977e3f768`
+- Payload digest: `2c13608977e3f768018d60c007b0e47f418982fb95d3f06da08104b95bdf640b`
+- No order was submitted.
 
 ## Read-only / causality boundary
 The probe, MT5 adapter, and observation builder only initialize/connect to MT5 and read/normalize market data. They do not submit orders or modify positions. The observation builder does not calculate or attach outcomes and does not have access to future market data.
 
 ## Next step
-Unit tests passed locally: `9 passed in 0.27s`. Next, run a real local MT5 smoke test that captures one current `XAUUSD.sd` snapshot and converts it into a forward-shadow observation without submitting any order.
+The local MT5 -> forward-shadow data path is now proven end-to-end for a real current observation. Next, implement the **forward capture session/loop** that records repeated real observations under one frozen Stage 7 version contract, still with no orders and no online self-modification.
 
 The implementation must preserve:
 - no order submission
