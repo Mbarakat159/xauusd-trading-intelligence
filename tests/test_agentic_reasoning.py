@@ -30,6 +30,7 @@ def test_disciplined_trace_satisfies_agentic_contract():
     assert result.evidence_gathered
     assert result.verification_present
     assert result.disposition_preserved
+    assert result.causal_boundary_preserved
     assert result.failures == ()
 
 
@@ -109,3 +110,49 @@ def test_wrong_disposition_is_failure_even_with_complete_process():
     result = evaluate_trace(disciplined("MONITOR"), expected_disposition="WAIT")
     assert not result.disposition_preserved
     assert "final disposition differs from expected case disposition" in result.failures
+
+    
+def test_future_evidence_violates_causal_boundary():
+    trace = AgenticTrace(
+        steps=disciplined().steps,
+        evidence_requests=("check required evidence",),
+        verification_checks=("verify source timestamp",),
+        contradictions=disciplined().contradictions,
+        final_disposition="WAIT",
+        decision_timestamp="2026-09-21T10:00:00Z",
+        evidence_timestamps=("2026-09-21T10:01:00Z",),
+    )
+    result = evaluate_trace(trace, expected_disposition="WAIT")
+    assert not result.causal_boundary_preserved
+    assert "evidence timestamp is after decision timestamp" in result.failures
+
+
+def test_stale_evidence_violates_declared_freshness_boundary():
+    trace = AgenticTrace(
+        steps=disciplined().steps,
+        evidence_requests=("check current evidence",),
+        verification_checks=("verify source timestamp",),
+        contradictions=disciplined().contradictions,
+        final_disposition="WAIT",
+        decision_timestamp="2026-09-21T10:00:00Z",
+        evidence_timestamps=("2026-09-21T09:00:00Z",),
+        max_evidence_age_seconds=1800,
+    )
+    result = evaluate_trace(trace, expected_disposition="WAIT")
+    assert not result.causal_boundary_preserved
+    assert "evidence is stale beyond declared freshness boundary" in result.failures
+
+
+def test_valid_causal_evidence_passes_boundary():
+    trace = AgenticTrace(
+        steps=disciplined().steps,
+        evidence_requests=("check required evidence",),
+        verification_checks=("verify source timestamp",),
+        contradictions=disciplined().contradictions,
+        final_disposition="WAIT",
+        decision_timestamp="2026-09-21T10:00:00Z",
+        evidence_timestamps=("2026-09-21T09:50:00Z",),
+        max_evidence_age_seconds=1800,
+    )
+    result = evaluate_trace(trace, expected_disposition="WAIT")
+    assert result.causal_boundary_preserved
