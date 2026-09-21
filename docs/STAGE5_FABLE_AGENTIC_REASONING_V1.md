@@ -1,6 +1,6 @@
 # Stage 5 — Fable / Agentic Reasoning Layer V1
 
-Status: IMPLEMENTED / INITIAL MECHANICAL EVALUATION
+Status: IMPLEMENTED / EVALUATION GATE IN PROGRESS
 
 ## Scope
 
@@ -41,9 +41,11 @@ AgenticTrace records only externally inspectable process facts:
 - verification checks;
 - preserved contradictions;
 - recovery/refinement actions;
-- final disposition.
+- final disposition;
+- decision timestamp and evidence timestamps;
+- an optional declared freshness boundary for evidence.
 
-Hidden chain-of-thought is neither requested nor stored.
+Hidden chain-of-thought is neither requested nor stored. Causal metadata is observable provenance metadata, not reasoning content.
 
 ## Evaluation / ablation design
 
@@ -94,3 +96,32 @@ Before Stage 5 can be marked PASSED:
 7. only then decide whether the agentic layer is eligible for the next stage.
 
 No trading-performance conclusion is permitted from this gate.
+
+
+## Causal information-boundary contract
+
+The evaluation contract now explicitly represents the decision timestamp and evidence timestamps. It rejects:
+
+- evidence timestamped after the decision;
+- malformed timestamps;
+- evidence supplied without a decision timestamp;
+- evidence older than the declared freshness boundary.
+
+This makes the stale/future-information adversarial requirement testable rather than relying on strings such as "future outcome". The contract remains process-level and does not infer market outcomes.
+
+## Frozen Stage 5 evaluation cases
+
+The frozen ablation set contains four synthetic reasoning-contract cases:
+
+1. missing evidence -> WAIT;
+2. unresolved contradiction -> MONITOR;
+3. tool failure requiring bounded recovery -> WAIT;
+4. freshness-boundary verification -> WAIT.
+
+Baseline and disciplined traces use the same decision/evidence time boundary. The cases are not market data and cannot establish profitability.
+
+## Current gate state
+
+The representative case set and causal adversarial tests are now committed. The repository-level Stage 5 CI result for the latest evaluation commit still requires observable workflow confirmation; Stage 5 therefore remains PENDING and is not marked PASSED.
+
+The pass decision requires successful repository test execution plus the frozen ablation results, followed by explicit confirmation that the disciplined process improves, degrades, or does not change the measured correctness/failure profile. No Stage 6 work should begin before that gate is closed.
